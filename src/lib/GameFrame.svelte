@@ -2,19 +2,31 @@
   import GameCanvas from "./GameCanvas.svelte";
   import GameConsole from "./GameConsole.svelte";
   import { Github } from "svelte-bootstrap-icons/lib/Github";
+  import { setContext } from "svelte";
+  import type { Scene } from "./mechanics/scene";
 
   let canvas: GameCanvas;
+  let gameContext: any = {};
 
   function startGame() {
     if (canvas) {
       canvas.startGame();
     }
   }
+
+  function spawnBall() {
+    let scene: Scene = gameContext.scene;
+    if (scene) {
+      scene.spawnBall();
+    }
+  }
+
+  setContext("game", gameContext);
 </script>
 
 <section class="shadow-lg bg-slate-800 rounded-lg p-5">
   <GameCanvas bind:this={canvas} />
-  <GameConsole on:click={startGame} />
+  <GameConsole on:newgame={startGame} on:spawnball={spawnBall} />
 
   <!-- Credits -->
   <a
