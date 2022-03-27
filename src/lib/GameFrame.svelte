@@ -12,13 +12,14 @@
   }
 </script>
 
-<section class="bg-slate-800 rounded-lg p-5">
+<section class="shadow-lg bg-slate-800 rounded-lg p-5">
   <GameCanvas bind:this={canvas} />
   <GameConsole on:click={startGame} />
 
   <!-- Credits -->
   <a
-    class="flex flex-row justify-center items-center gap-2 mt-4 text-center text-slate-600 hover:text-blue-500 hover:underline"
+    class="flex flex-row justify-center items-center gap-2 mt-4 text-sm text-center
+           text-slate-600 hover:text-blue-500 hover:underline"
     href="http://github.com/leedeverteuil">
     Made by Lee de Verteuil
     <Github />
