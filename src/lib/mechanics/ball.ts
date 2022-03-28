@@ -7,13 +7,21 @@ const HALF_WIDTH = WIDTH / 2;
 const HALF_HEIGHT = WIDTH / 2;
 const SPAWN_OFFSET = HEIGHT + 4;
 
+function boxesIntersected(b1: CollisionBox, b2: CollisionBox) {
+  // source: https://developer.mozilla.org/en-US/docs/Games/Techniques/2D_collision_detection#axis-aligned_bounding_box
+  return (
+    b1.x < b2.x + b2.width && b1.y < b2.y + b2.height && b1.height + b1.y > b2.y
+  );
+}
+
 class Ball {
   scene: Scene;
   gameContext: any;
   currentBounds: CollisionBox;
+  lastCollision: any;
   dirX: number = 1;
   dirY: number = 1;
-  speed: number = 100;
+  speed: number = 200;
 
   constructor(scene: Scene) {
     this.scene = scene;
@@ -28,6 +36,14 @@ class Ball {
       width: WIDTH,
       height: HEIGHT,
     };
+  }
+
+  flipDirectionX() {
+    this.dirX = -this.dirX;
+  }
+
+  flipDirectionY() {
+    this.dirY = -this.dirY;
   }
 
   render(deltaTime: number) {
@@ -54,18 +70,44 @@ class Ball {
     const bounds = this.currentBounds;
     const { x, y, width, height } = bounds;
 
+    // bottom and right
+    const bottom = y + height;
+    const right = x + width;
+
     // wall collisions
     // left & right walls
-    if ((x + WIDTH) >= cvs.width || x <= 0) {
-      this.dirX = -this.dirX;
+    if (x + WIDTH >= cvs.width || x <= 0) {
+      this.flipDirectionX();
     }
     // top wall
     if (y <= 0) {
-      this.dirY = -this.dirY;
+      this.flipDirectionY();
     }
 
-    // platform collisions
+    // platform collision & deflection math
+    const plat = this.scene.platform;
+    const platBounds = plat.currentBounds;
+    if (platBounds) {
+      // make sure that it clears the platform before
+      // another collision can be detected
+      const intersected = boxesIntersected(bounds, platBounds);
+      const lastCollided = this.lastCollision == plat;
 
+      if (lastCollided && !intersected) {
+        this.lastCollision = undefined;
+      }
+      else if (!lastCollided && intersected) {
+        this.lastCollision = plat;
+        this.flipDirectionY();
+
+        // depending on where ball hits the platform
+        // the angle of deflection should be different
+        const hitAlpha = Math.max((x - platBounds.x) / platBounds.width);
+        // console.log(hitAlpha);
+      }
+    }
+
+    // lose game if ball reaches bottom
   }
 }
 
