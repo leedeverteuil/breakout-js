@@ -33,7 +33,7 @@
 
 <div class="flex flex-row justify-center">
   <canvas
-    class="border border-slate-700 rounded-lg"
+    class="border border-gray-900 bg-black rounded-lg"
     bind:this={canvas}
     width="525"
     height="400" />

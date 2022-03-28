@@ -1,11 +1,16 @@
+import { Ball } from "./ball";
 import { Blocks } from "./blocks";
 import { Platform } from "./platform";
+
+const ONE_SIXTIETH = 1 / 60;
 
 class Scene {
   lives: number;
   platform: Platform;
+  ball: Ball;
   blocks: Blocks;
   gameContext: any;
+  lastTimestamp: number;
   destroyed: boolean = false;
 
   constructor(gameContext: any, lives: number) {
@@ -19,11 +24,20 @@ class Scene {
   }
 
   spawnBall() {
-    console.log("spawn ball");
+    if (!this.ball) {
+      this.ball = new Ball(this);
+    }
   }
 
   requestNextFrame() {
-    requestAnimationFrame(() => {
+    requestAnimationFrame((timestamp: number) => {
+      // how much time has passed since last frame
+      // we scale physics calculations with this
+      // so they remain the same even if frames
+      // per second drops
+      const lastTs = this.lastTimestamp;
+      const deltaTime = lastTs ? timestamp - lastTs : ONE_SIXTIETH;
+
       const drawContext = this.gameContext.drawContext;
       const canvas = this.gameContext.canvas;
 
@@ -32,6 +46,7 @@ class Scene {
 
       // render game objects
       this.platform.render();
+      if (this.ball) this.ball.render(deltaTime);
 
       if (!this.destroyed) {
         this.requestNextFrame();

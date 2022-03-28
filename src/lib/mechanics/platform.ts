@@ -40,6 +40,7 @@ class Platform {
       // make function for easy cleanup later
       return () => {
         this.canvas.removeEventListener("mousemove", listener);
+        this.removeMouseListener = undefined;
       };
     }
   }
@@ -75,7 +76,7 @@ class Platform {
     // give a little room above the bottom of canvas
     const y = cvs.height - PLATFORM_Y_PADDING - height / 2;
 
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = "#fff";
     ctx.fillRect(x, y, width, PLATFORM_HEIGHT);
 
     // save bounds for physics calculations
