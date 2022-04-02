@@ -1,6 +1,7 @@
 import { Ball } from "./ball";
-import { Blocks } from "./blocks";
 import { Platform } from "./platform";
+import { makeBlocks } from "./levels";
+import type { Blocks } from "./blocks";
 
 const ONE_SIXTIETH = 1 / 60;
 
@@ -17,7 +18,11 @@ class Scene {
     this.lives = lives;
     this.gameContext = gameContext;
     this.platform = new Platform(gameContext.drawContext);
-    this.blocks = new Blocks();
+    this.blocks = makeBlocks(gameContext, 0);
+
+    // clear game context props
+    gameContext.lives.set(3);
+    gameContext.points.set(0);
 
     // start rendering
     this.requestNextFrame();
@@ -46,6 +51,7 @@ class Scene {
 
       // render game objects
       this.platform.render();
+      this.blocks.render();
       if (this.ball) this.ball.render(deltaTime);
 
       if (!this.destroyed) {

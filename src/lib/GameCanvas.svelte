@@ -35,6 +35,6 @@
   <canvas
     class="border border-gray-900 bg-black rounded-lg"
     bind:this={canvas}
-    width="525"
+    width="500"
     height="400" />
 </div>

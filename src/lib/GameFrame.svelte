@@ -1,12 +1,17 @@
 <script lang="ts">
   import GameCanvas from "./GameCanvas.svelte";
   import GameConsole from "./GameConsole.svelte";
+  import GameBar from "./GameBar.svelte";
   import { Github } from "svelte-bootstrap-icons/lib/Github";
   import { setContext } from "svelte";
+  import { writable } from 'svelte/store';
   import type { Scene } from "./mechanics/scene";
 
   let canvas: GameCanvas;
-  let gameContext: any = {};
+  let gameContext: any = {
+    lives: writable(3),
+    points: writable(0)
+  };
 
   function startGame() {
     if (canvas) {
@@ -25,6 +30,7 @@
 </script>
 
 <section class="shadow-lg bg-slate-800 rounded-lg p-5">
+  <GameBar />
   <GameCanvas bind:this={canvas} />
   <GameConsole on:newgame={startGame} on:spawnball={spawnBall} />
 

@@ -1,7 +1,7 @@
 import type { CollisionBox } from "./types";
 
-const REGULAR_WIDTH = 50;
-const JUMBO_WIDTH = 100;
+const REGULAR_WIDTH = 65;
+const JUMBO_WIDTH = 120;
 const PLATFORM_HEIGHT = 12;
 const PLATFORM_Y_PADDING = 20;
 
@@ -35,11 +35,11 @@ class Platform {
         this.posX = e.clientX - rect.x;
       };
 
-      this.canvas.addEventListener("mousemove", listener);
+      document.addEventListener("mousemove", listener);
 
       // make function for easy cleanup later
       return () => {
-        this.canvas.removeEventListener("mousemove", listener);
+        document.removeEventListener("mousemove", listener);
         this.removeMouseListener = undefined;
       };
     }
