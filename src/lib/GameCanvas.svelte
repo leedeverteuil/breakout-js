@@ -1,37 +1,30 @@
 <script lang="ts">
   import { getContext, onMount } from "svelte";
-  import { Scene } from "./mechanics/scene";
+  import type { GameContext } from "./mechanics/context";
+  import { layouts } from "./mechanics/layouts";
+  import { Match } from "./mechanics/match";
 
-  let gameContext: any = getContext("game");
+  const gameContext: GameContext = getContext("game");
   let canvas: HTMLCanvasElement;
-  let drawContext: CanvasRenderingContext2D;
 
   onMount(() => {
-    drawContext = canvas.getContext("2d");
     gameContext.canvas = canvas;
-    gameContext.drawContext = drawContext;
   });
 
   function reset() {
-    // clear canvas
-    drawContext.clearRect(0, 0, canvas.width, canvas.height);
-
-    // destroy old scene
-    if (gameContext.scene) {
-      gameContext.scene.destroy();
-    }
+    const renderContext = canvas.getContext("2d");
+    renderContext.clearRect(0, 0, canvas.width, canvas.height);
+    gameContext.match?.destroy();
   }
 
   export function startGame() {
-    reset();
-
-    // make new scene
-    let scene = new Scene(gameContext, 3);
-    gameContext.scene = scene;
+    canvas.getContext("2d").clearRect(0, 0, canvas.width, canvas.height);
+    gameContext.match?.destroy();
+    gameContext.match = new Match(gameContext, layouts[0]);
   }
 </script>
 
-<div class="flex flex-row justify-center">
+<div class="flex flex-col justify-center">
   <canvas
     class="border border-gray-900 bg-black rounded-lg"
     bind:this={canvas}

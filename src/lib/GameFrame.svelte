@@ -4,13 +4,16 @@
   import GameBar from "./GameBar.svelte";
   import { Github } from "svelte-bootstrap-icons/lib/Github";
   import { setContext } from "svelte";
-  import { writable } from 'svelte/store';
-  import type { Scene } from "./mechanics/scene";
+  import { writable } from "svelte/store";
+  import type { GameContext } from "./mechanics/context";
 
   let canvas: GameCanvas;
-  let gameContext: any = {
+  const gameContext: GameContext = {
     lives: writable(3),
-    points: writable(0)
+    points: writable(0),
+    gameOver: writable(false),
+    gameWon: writable(false),
+    powerups: {}
   };
 
   function startGame() {
@@ -20,9 +23,9 @@
   }
 
   function spawnBall() {
-    let scene: Scene = gameContext.scene;
-    if (scene) {
-      scene.spawnBall();
+    const match = gameContext.match;
+    if (match) {
+      match.spawnPuck();
     }
   }
 
