@@ -7,7 +7,7 @@
 
 <div class="flex flex-col justify-center">
   <canvas
-    class="border border-gray-900 bg-black rounded-lg"
+    class="border border-gray-800 bg-black rounded-lg"
     bind:this={context.canvas}
     width="500"
     height="400" />

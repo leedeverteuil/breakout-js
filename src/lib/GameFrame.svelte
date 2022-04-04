@@ -43,7 +43,7 @@
   setContext("game", gameContext);
 </script>
 
-<section class="shadow-lg bg-slate-800 rounded-lg p-5">
+<section class="shadow-lg bg-gray-900 rounded-lg p-5">
   <GameBar />
   <GameMessage />
   <GameCanvas bind:this={canvas} />
@@ -52,7 +52,7 @@
   <!-- Credits -->
   <a
     class="flex flex-row justify-center items-center gap-2 mt-4 text-sm text-center
-           text-slate-600 hover:text-blue-500 hover:underline"
+           text-gray-600 hover:text-blue-500 hover:underline"
     href="http://github.com/leedeverteuil">
     Made by Lee de Verteuil
     <Github />

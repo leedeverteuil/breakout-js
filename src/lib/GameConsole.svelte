@@ -21,7 +21,7 @@
 <div class="flex flew-row gap-4 justify-center mt-5">
   <!-- Restart button -->
   <button
-    class="flex flex-row gap-1.5 items-center border border-yellow-400 shadow-sm shadow-slate-900
+    class="flex flex-row gap-1.5 items-center border border-yellow-400 shadow-sm shadow-gray-900
          text-yellow-900  bg-yellow-500 px-5 py-2 rounded-lg
          transition-all hover:shadow-lg hover:scale-105"
     on:click={newGame}>
@@ -31,7 +31,7 @@
 
   <!-- Level selector -->
   <select
-    class="p-2 rounded-lg bg-slate-700 text-slate-50 shadow-lg"
+    class="p-2 rounded-lg bg-gray-700 text-gray-50 shadow-lg"
     bind:value={level}>
     {#each layouts as layout, i}
       <option value={i}>Level {i + 1}</option>
@@ -40,7 +40,7 @@
 
   <!-- Difficulty selector -->
   <select
-    class="p-2 rounded-lg bg-slate-700 text-slate-50 shadow-lg"
+    class="p-2 rounded-lg bg-gray-700 text-gray-50 shadow-lg"
     bind:value={difficulty}>
     <option value="novice">Novice</option>
     <option value="adept">Adept</option>
