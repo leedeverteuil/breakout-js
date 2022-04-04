@@ -1,3 +1,4 @@
+import { get } from "svelte/store";
 import type { GameContext } from "./context";
 import { PhysicsBox } from "./physics";
 
@@ -10,13 +11,14 @@ class Puck {
   box: PhysicsBox;
   context: GameContext;
   lastHit: string;
-  speedX = 1;
+  speedX = 0.05;
   speedY = -1;
   speedMultiplier = 4;
 
   constructor(x: number, y: number, context: GameContext) {
     this.box = new PhysicsBox(x, y, this.SIZE, this.SIZE, context.canvas);
     this.context = context;
+    this.speedMultiplier *= context.match.difficulty.speedMultiplier;
   }
 
   flipX() {
@@ -57,9 +59,23 @@ class Puck {
     this.box.y += this.speedY * this.speedMultiplier;
   }
 
+  puckLost() {
+    // lose a life here
+    const context = this.context;
+    const match = context.match;
+    context.lives.update((l: number) => l -= 1);
+
+    // lose game if all lives lost
+    if (get(context.lives) == 0) {
+      match.endGame(false, false);
+    } else {
+      match.removePuck();
+    }
+  }
+
   updateWallCollisions(): boolean {
     if (this.box.outOfBoundsBottom()) {
-      // TODO: lose game here
+      this.puckLost();
       return true;
     }
     // hit left or right wall

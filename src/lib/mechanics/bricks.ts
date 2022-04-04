@@ -50,6 +50,11 @@ class Brick {
     this.col = col;
     this.makeBox();
     this.colorSet = unbreakable ? COLORSETS[0] : COLORSETS[health];
+
+    // update points to give based on difficulty
+    const pointsMult = context.match.difficulty.pointMultiplier;
+    this.POINTS_FOR_BREAK *= pointsMult;
+    this.POINTS_FOR_HIT *= pointsMult;
   }
 
   destroy() {}
@@ -61,11 +66,11 @@ class Brick {
 
       // give player some points
       const pts = this.broken ? this.POINTS_FOR_BREAK : this.POINTS_FOR_HIT;
-      this.context.points.update(old => old + pts);
+      this.context.points.update((old) => old + pts);
 
       // last brick broken check, win game
       if (this.broken && this.context.match.bricks.allBricksBroken()) {
-        this.context.match.endGame(true);
+        this.context.match.endGame(false, true);
       }
     }
   }
@@ -146,7 +151,7 @@ class Bricks {
   }
 
   allBricksBroken() {
-    return this.all.every(b => b.unbreakable || b.broken);
+    return this.all.every((b) => b.unbreakable || b.broken);
   }
 
   makeBricks() {

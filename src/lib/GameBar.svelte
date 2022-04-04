@@ -4,6 +4,7 @@
   import type { Writable } from "svelte/store";
   import HeartFill from "svelte-bootstrap-icons/lib/HeartFill";
   import StarFill from "svelte-bootstrap-icons/lib/StarFill";
+  import Mouse2Fill from "svelte-bootstrap-icons/lib/Mouse2Fill";
 
   const gameContext: any = getContext("game");
   const lives: Writable<number> = gameContext.lives;
@@ -34,7 +35,11 @@
     </p>
   </div>
 
-  <div class="flex flex-row items-center">
+  <div class="flex flex-row gap-6 items-center">
+    <p class="key-label">
+      <span class="key-icon"><Mouse2Fill /></span>
+      Click to launch ball
+    </p>
     <p class="key-label">
       <span class="key-icon">P</span>
       Pause
@@ -44,10 +49,10 @@
 
 <style lang="postcss">
   .key-label {
-    @apply flex flex-row gap-2 items-center rounded-lg p-3 text-gray-100;
+    @apply flex flex-row gap-2 items-center rounded-lg text-gray-100;
   }
 
   .key-icon {
-    @apply px-2 py-0.5 rounded-md bg-gray-900 text-gray-600 font-mono;
+    @apply flex text-lg text-gray-400 font-mono;
   }
 </style>

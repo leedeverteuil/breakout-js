@@ -6,26 +6,37 @@
   import { setContext } from "svelte";
   import { writable } from "svelte/store";
   import type { GameContext } from "./mechanics/context";
+  import GameMessage from "./GameMessage.svelte";
+  import { Match } from "./mechanics/match";
+  import { layouts, type Layout } from "./mechanics/layouts";
+  import { difficulty, type Difficulty } from "./mechanics/difficulty";
 
   let canvas: GameCanvas;
   const gameContext: GameContext = {
-    lives: writable(3),
+    lives: writable(1),
     points: writable(0),
     gameOver: writable(false),
     gameWon: writable(false),
-    powerups: {}
+    powerups: {},
   };
 
-  function startGame() {
-    if (canvas) {
-      canvas.startGame();
-    }
+  function resetContext() {
+    gameContext.lives.set(1);
+    gameContext.points.set(0);
+    gameContext.gameOver.set(false);
+    gameContext.gameWon.set(false);
+    gameContext.powerups = {};
   }
 
-  function spawnBall() {
-    const match = gameContext.match;
-    if (match) {
-      match.spawnPuck();
+  function startGame(e: CustomEvent) {
+    if (canvas) {
+      resetContext();
+      gameContext.match?.destroy();
+
+      const detail = e.detail;
+      const layout: Layout = layouts[detail.level];
+      const diff: Difficulty = difficulty[detail.difficulty];
+      gameContext.match = new Match(gameContext, layout, diff);
     }
   }
 
@@ -34,8 +45,9 @@
 
 <section class="shadow-lg bg-slate-800 rounded-lg p-5">
   <GameBar />
+  <GameMessage />
   <GameCanvas bind:this={canvas} />
-  <GameConsole on:newgame={startGame} on:spawnball={spawnBall} />
+  <GameConsole on:newgame={startGame} />
 
   <!-- Credits -->
   <a
