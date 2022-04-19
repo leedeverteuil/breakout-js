@@ -4,7 +4,7 @@
   "scripts": {
     "dev": "svelte-kit dev",
     "build": "svelte-kit build && cp .gitignore build/.gitignore",
-    "deploy": "touch build/.nojekyll && gh-pages -d build -t true",
+    "deploy": "touch build/.nojekyll && npx gh-pages -d build -t true",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
     "prepare": "svelte-kit sync",
