@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "scripts": {
     "dev": "svelte-kit dev",
-    "build": "svelte-kit build",
+    "build": "svelte-kit build && cp .gitignore build/.gitignore",
     "deploy": "touch build/.nojekyll && gh-pages -d build -t true",
     "package": "svelte-kit package",
     "preview": "svelte-kit preview",
