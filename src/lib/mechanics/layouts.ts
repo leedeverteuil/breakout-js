@@ -6,9 +6,9 @@ type Layout = {
 key:
   _ air
   # unbreakable
-  1 blue brick
-  2 yellow brick
-  3 red brick
+  1 yellow brick
+  2 green brick
+  3 blue brick
 */
 
 const layouts: Array<Layout> = [
