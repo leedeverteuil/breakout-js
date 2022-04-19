@@ -1,3 +1,5 @@
+let idCount: number = 0;
+
 type PenetrationInfo = {
   top: number;
   bottom: number;
@@ -20,12 +22,13 @@ class PhysicsBox {
     h: number,
     canvas?: HTMLCanvasElement
   ) {
-    this.id = crypto.randomUUID();
+    this.id = idCount.toString();
     this.x = x;
     this.y = y;
     this.w = w;
     this.h = h;
     this.canvas = canvas;
+    idCount++;
   }
 
   top(): number {
