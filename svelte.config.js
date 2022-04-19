@@ -14,16 +14,15 @@ const config = {
   ],
 
   kit: {
-    adapter: adapter({
-      pages: 'docs',
-      assets: 'docs',
-      fallback: null,
-      precompress: false
-    }),
+    adapter: adapter(),
+    prerender: {
+      default: true,
+    },
     paths: {
       base: dev ? '' : '/breakout-js'
-    }
+    },
   },
+
 
   prerender: {
     default: true
